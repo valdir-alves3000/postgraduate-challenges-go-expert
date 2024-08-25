@@ -3,6 +3,7 @@ module github.com/valdir-alves3000/postgraduate-challenges-go-expert/APIs
 go 1.22.5
 
 require (
+	github.com/go-chi/chi/v5 v5.1.0
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0

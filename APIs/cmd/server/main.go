@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/APIs/configs"
 	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/APIs/internal/entity"
 	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/APIs/internal/infra/database"
@@ -26,11 +28,12 @@ func main() {
 	productDB := database.NewProduct(db)
 	productHandler := handlers.NewProductHandler(productDB)
 
-	http.HandleFunc("/products", productHandler.CreateProduct)
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
-	})
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
 
-	http.ListenAndServe(":8000", nil)
+	r.Post("/products", productHandler.CreateProduct)
+	r.Get("/products/{id}", productHandler.GetProduct)
+	r.Put("/products/{id}", productHandler.UpdateProduct)
+
+	http.ListenAndServe(":8000", r)
 }
