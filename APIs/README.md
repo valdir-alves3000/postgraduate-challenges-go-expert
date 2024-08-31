@@ -2,7 +2,7 @@
 
 ![Screenshot](.github/screenshot.png)
 
-Esta é uma API simples desenvolvida em Go, que oferece autenticação e operações CRUD para produtos. A API utiliza JWT para acesso seguro e inclui `Swagger` para documentação da API.
+Esta é uma API simples desenvolvida em Go, que oferece autenticação e operações CRUD para produtos. A API utiliza `JWT` para acesso seguro e inclui `Swagger` para documentação da API.
 
 ## Funcionalidades
 

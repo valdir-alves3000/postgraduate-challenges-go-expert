@@ -18,7 +18,7 @@ Este projeto consiste em dois sistemas escritos em Go que trabalham juntos para 
 1. **Clone o Repositório**:
 
    ```sh
-   git clone https://github.com/valdir-alves3000/postgraduate-challenges-go-expert/client-server.git
+   git clone https://github.com/valdir-alves3000/postgraduate-challenges-go-expert.git
    cd client-server
    ```
 
@@ -31,7 +31,6 @@ Este projeto consiste em dois sistemas escritos em Go que trabalham juntos para 
    ```
 
 3. **Compile e Execute o Servidor**:
-
 
    ```sh
    go run server/main.go
@@ -76,7 +75,6 @@ curl http://localhost:8080/cotacao
   "create_date": "2024-07-26 12:02:50"
 }
 ```
-
 
 ## Erros Comuns
 
