@@ -14,11 +14,11 @@ O repositório está organizado em **Challenges**:
 - **[Client-Server](client-server)**
   - **Client**: Contém os desafios e exercícios relacionados ao desenvolvimento de clientes em Go.
   - **Server**: Abriga os desafios e exercícios focados em desenvolvimento de servidores utilizando Go. 
-  
+
 - **[APIs](APIs)**: Esta é uma API simples que oferece autenticação e operações CRUD para produtos. 
   
 - **[Multithreading](multithreading)**
-  -**[Cep Lookup](cep-lookup)**: Consulta de endereços a partir de CEPs.
+  - **[Cep Lookup](multithreading/cep-lookup)**: Consulta de endereços a partir de CEPs.
 
 Cada diretório possui seu próprio README com instruções detalhadas e explicações para facilitar a navegação e o entendimento.
 
