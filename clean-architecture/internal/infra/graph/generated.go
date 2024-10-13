@@ -14,7 +14,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/clean-architecture/graph/model"
+	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/clean-architecture/internal/infra/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -627,7 +627,7 @@ func (ec *executionContext) _Query_listOrders(ctx context.Context, field graphql
 	}
 	res := resTmp.([]*model.Order)
 	fc.Result = res
-	return ec.marshalNOrder2ᚕᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrder(ctx, field.Selections, res)
+	return ec.marshalNOrder2ᚕᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrderᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_listOrders(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3132,7 +3132,7 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 	return graphql.WrapContextMarshaler(ctx, res)
 }
 
-func (ec *executionContext) marshalNOrder2ᚕᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrder(ctx context.Context, sel ast.SelectionSet, v []*model.Order) graphql.Marshaler {
+func (ec *executionContext) marshalNOrder2ᚕᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Order) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3156,7 +3156,7 @@ func (ec *executionContext) marshalNOrder2ᚕᚖgithubᚗcomᚋvaldirᚑalves300
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOOrder2ᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrder(ctx, sel, v[i])
+			ret[i] = ec.marshalNOrder2ᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrder(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3167,7 +3167,23 @@ func (ec *executionContext) marshalNOrder2ᚕᚖgithubᚗcomᚋvaldirᚑalves300
 	}
 	wg.Wait()
 
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
 	return ret
+}
+
+func (ec *executionContext) marshalNOrder2ᚖgithubᚗcomᚋvaldirᚑalves3000ᚋpostgraduateᚑchallengesᚑgoᚑexpertᚋcleanᚑarchitectureᚋgraphᚋmodelᚐOrder(ctx context.Context, sel ast.SelectionSet, v *model.Order) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Order(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

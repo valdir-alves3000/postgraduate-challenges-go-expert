@@ -6,19 +6,51 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/clean-architecture/graph/model"
+	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/clean-architecture/internal/infra/graph/model"
+	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/clean-architecture/internal/usecase"
 )
 
 // CreateOrder is the resolver for the createOrder field.
 func (r *mutationResolver) CreateOrder(ctx context.Context, input *model.OrderInput) (*model.Order, error) {
-	panic(fmt.Errorf("not implemented: CreateOrder - createOrder"))
+	dto := usecase.OrderInputDTO{
+		ID:    input.ID,
+		Price: float64(input.Price),
+		Tax:   float64(input.Tax),
+	}
+	output, err := r.CreateOrderUseCase.Execute(dto)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Order{
+		ID:         output.ID,
+		Price:      float64(output.Price),
+		Tax:        float64(output.Tax),
+		FinalPrice: float64(output.FinalPrice),
+	}, nil
 }
 
 // ListOrders is the resolver for the listOrders field.
 func (r *queryResolver) ListOrders(ctx context.Context) ([]*model.Order, error) {
-	panic(fmt.Errorf("not implemented: ListOrders - listOrders"))
+	orders, err := r.ListOrdersUseCase.Execute()
+	if err != nil {
+		return nil, err
+	}
+
+	var ordersOutput []*model.Order
+
+	for _, order := range orders {
+		orderOutput := &model.Order{
+			ID:         order.ID,
+			Price:      order.Price,
+			Tax:        order.Tax,
+			FinalPrice: order.FinalPrice,
+		}
+
+		ordersOutput = append(ordersOutput, orderOutput)
+	}
+
+	return ordersOutput, nil
 }
 
 // Mutation returns MutationResolver implementation.
