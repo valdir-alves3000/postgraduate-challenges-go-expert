@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentação - Rate Limiter com Go e Redis</title>
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --text-color: #374151;
+        --bg-code: #f3f4f6;
+        --border-color: #e5e7eb;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: #fff;
+      }
+
+      h1 {
+        color: var(--primary-color);
+        font-size: 2.25rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.5rem;
+      }
+
+      h2 {
+        color: var(--text-color);
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem;
+      }
+
+      .intro {
+        background-color: #f9fafb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--primary-color);
+      }
+
+      .endpoint {
+        background-color: white;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      code {
+        background-color: var(--bg-code);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.9rem;
+      }
+
+      .endpoint-title {
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .example {
+        background-color: var(--bg-code);
+        padding: 1rem;
+        border-radius: 4px;
+        margin-top: 0.5rem;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>    
+    
+  <header>
+    <h1>Rate Limiter com Go e Redis</h1>    
+
+    <div class="intro">
+     <p>Este projeto implementa um <strong>Rate Limiter</strong> configurável utilizando
+      <strong>Go</strong> e
+      <strong>Redis</strong>.
+     </p>
+     <p>Ele permite limitar requisições com base no <strong>endereço IP</strong> ou <strong>token de acesso</strong> e fornece um middleware que pode ser facilmente integrado em servidores HTTP.</p>
+    </div>    
+  </header>
+
+  
+  <h2 class="endpoint-title">Funcionalidades</h2>
+  <section class="endpoint">
+    <ul>
+      <li>
+        <p><strong>Limitação por IP:</strong> Limita o número de requisições por segundo de um mesmo endereço IP.
+      </li>
+      </p>
+      </li>
+      <li>
+        <p> <strong>Limitação por Token:</strong> Permite configurar limites específicos para tokens de acesso únicos
+          (passados no header <code>API_KEY</code>). </p>
+      </li>
+      <li>
+        <p><strong>Bloqueio temporário:</strong> Caso o limite seja excedido, o IP ou token é bloqueado por um período
+          configurável.</p>
+      </li>
+      <li>
+        <p><strong>Armazenamento no Redis:</strong> Todas as informações do rate limiter são armazenadas no banco de
+          dados Redis.</p>
+      </li>
+      <li>
+        <p><strong>Configuração via .env:</strong> O limite de requisições e o tempo de bloqueio são configuráveis
+          através do arquivo .env.</p>
+      </li>
+      <li>
+        <p><strong>Estratégia de Persistência:</strong> O design permite a troca fácil do Redis por outros mecanismos de
+          armazenamento.</p>
+      </li>
+      <li>
+        <p><strong>Documentação da Rota /docs:</strong> A aplicação inclui uma rota /docs com informações sobre o Rate
+          Limiter.</p>
+      </li>
+    </ul>
+  </section>
+
+  
+  <h2 class="endpoint-title" >Pré-requisitos</h2>
+    <section class="endpoint">
+      <ul>
+        <li>
+          <p><strong>Docker</strong> e <strong>Docker Compose</strong> instalados.</p>
+        </li>
+        <li>
+          <p><strong>Go 1.21+</strong> instalado para desenvolvimento local.</p>
+        </li>
+      </ul>
+    </section>
+
+    <h2 class="endpoint-title">Instalação e Execução</h2>
+    <section class="endpoint">
+    <ol>
+      <li><strong>Clone o Repositório:</strong>
+        <div class="example">
+          <code>git clone <a href="https://github.com/valdir-alves3000/postgraduate-challenges-go-expert">postgraduate-challenges-go-expert</a></br></code>
+          <code>cd rate-limiter</code>
+        </div>
+      </li>
+      <li><strong>Configure o Arquivo .env:</strong>
+        <div class="example">
+          <code>REDIS_HOST=redis</code><br>
+          <code>REDIS_PORT=6379</code><br>
+          <code>RATE_LIMIT=5</code><br>
+          <code>BLOCK_DURATION=300</code><br>       
+          <code>SERVER_PORT=8080</code>       
+        </div>
+
+      </li>
+      <li><strong>Suba o Docker Compose:</strong>
+        <div class="example"><code>docker-compose up --build</code></div>
+      </li>
+      <li><strong>Testando a Aplicação:</strong>
+        <p>Acesse a rota <code>/docs</code> para visualizar a documentação.</p>
+        <p>Teste as rotas protegidas pelo Rate Limiter utilizando ferramentas como <strong>Postman</strong> ou
+          <strong>curl</strong>.
+        </p>
+      </li>
+    </ol>
+    </section>
+
+    <h2 class="endpoint-title">Rotas</h2>
+    <section class="endpoint">
+      <ul>
+        <li>
+          <p><strong>GET /docs:</strong> Documentação sobre a aplicação e como o Rate Limiter funciona.</p>
+        </li>
+        <li>
+          <p><strong>Rotas Protegidas:</strong> Qualquer rota implementada que utilize o <strong>middleware</strong> será
+            protegida pelo Rate Limiter.</p>
+        </li>
+      </ul>
+    </section>
+    
+    <h2 class="endpoint-title">Exemplo de Teste</h2>
+  <section class="endpoint">
+    <h3>Teste Limitação por IP</h3>
+
+
+    <div class="example"><code>curl http://localhost:8080/ -H "API_KEY: test"</code></div>
+    <p>Faça múltiplas requisições consecutivas para verificar o bloqueio.</p>
+  </section>
+
+  <h2 class="endpoint-title">Estratégia de Persistência</h2>
+  <section class="endpoint">
+    <p>Por padrão, o sistema utiliza o <strong>Redis</strong> como mecanismo de persistência. Para trocar o Redis por
+      outro sistema, basta implementar a interface definida em <code>internal/ratelimiter/interfaces.go</code> e
+      registrar a nova estratégia.</p>
+  </section>
+
+  
+  <h2 class="endpoint-title">Testes</h2>
+  <section class="endpoint">
+    <h3>Testes de Integração</h3>
+    <div class="example"><code>go test ./tests/integration</code></div>
+    <h3>Testes de Performance</h3>
+    <div class="example"><code>go test ./tests/performance</code></div>
+  </section>
+
+  
+  <h2 class="endpoint-title">Tecnologias Utilizadas</h2>
+  <section class="endpoint">
+    <ul>
+      <li>
+        <p></p><strong>Go</strong>: Linguagem de programação.</p>
+      </li>
+      <li>
+        <p></p><strong>Redis</strong>: Armazenamento de informações do Rate Limiter.</p>
+      </li>
+      <li>
+        <p></p><strong>Docker</strong> e <strong>Docker Compose</strong>: Facilita a configuração do ambiente.</p>
+      </li>
+      <li>
+        <p></p><strong>Gorilla Mux</strong>: Framework de roteamento HTTP.</p>
+      </li>
+      <li>
+        <p></p><strong>Testing Framework</strong>: Testes automatizados com o pacote padrão do Go.</p>
+      </li>
+    </ul>
+  </section>
+
+  <h2 class="endpoint-title">Como Funciona o Rate Limiter</h2>
+  <section class="endpoint">
+    <ol>
+      <li>
+        <p><strong>Requisições são interceptadas pelo middleware.</strong></p>
+      </li>
+      <li>
+        <p>O middleware verifica o <strong>IP</strong> ou <strong>token</strong> da requisição.</p>
+      </li>
+      <li>
+        <p><strong>Caso o limite de requisições seja excedido:</strong>
+        <ul>
+          <li>
+            <p>A requisição é bloqueada.</p>
+          </li>
+          <li>
+            <p>Retorna <strong>HTTP 429</strong> com a mensagem:
+            <pre><code>{"error": "you have reached the maximum number of requests or actions allowed within a certain time frame"}</code></pre>
+            </p>
+          </li>
+        </ul>
+        </p>
+      </li>
+      <li>
+        <p>As informações são armazenadas no Redis com um tempo de expiração configurável.</p>
+      </li>
+    </ol>
+  </section>    
+  </body>
+</html>
