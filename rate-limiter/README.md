@@ -25,8 +25,8 @@ Este projeto implementa um **Rate Limiter** configurável utilizando **Go** e **
 
 1. **Clone o Repositório:**
    ```bash
-   git clone https://github.com/valdir-alves3000/postgraduate-challenges-go-expert/rate-limiter.git
-   cd rate-limiter
+   git clone https://github.com/valdir-alves3000/postgraduate-challenges-go-expert.git
+   cd postgraduate-challenges-go-expert/rate-limiter
    ```
 
 2. **Configure o Arquivo `.env`:**
