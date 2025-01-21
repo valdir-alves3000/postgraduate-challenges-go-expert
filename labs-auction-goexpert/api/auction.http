@@ -1,0 +1,34 @@
+### Create auction
+POST http://localhost:8080/auction
+Content-Type: application/json
+
+{
+  "product_name": "Notebook Samsung",
+  "category": "Eletrônicos",
+  "description": "Notebook usado em boas condições",
+  "condition": 1
+}
+
+### Find all auctions
+GET http://localhost:8080/auction?status=1
+
+Content-Type: application/json
+
+### Find auction by ID
+GET http://localhost:8080/auction/265fc83f-9457-4525-bace-595dc1cc9140
+
+### Creating a bid in an auction
+POST http://localhost:8080/bid
+Content-Type: application/json
+
+{
+  "auction_id": "e09ea43a-634f-4723-8d26-af3287f2d95d",
+  "user_id": "123e4567-e89b-12d3-a456-426614174000",
+  "amount": 1010
+}
+
+### Find all bids for an auction
+GET http://localhost:8080/bid/e09ea43a-634f-4723-8d26-af3287f2d95d
+
+### Find winning auction by auction ID
+GET http://localhost:8080/auction/winner/e09ea43a-634f-4723-8d26-af3287f2d95d
