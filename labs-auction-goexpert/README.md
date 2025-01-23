@@ -53,23 +53,29 @@ Este projeto simula o gerenciamento de leilões. Algumas rotas de exemplo são:
 `POST /auctions`
 
 ```bash
-", 
-    "condition": 1, 
-    "status": 0
-    }' \curl -X POST http://localhost:8080/auctions \
+curl -X POST http://localhost:8080/auction \
+  -H "Content-Type: application/json" \
   -d '{
-    "product_name": "Product A", 
-    "category": "Category A", 
-    "description": "Auction Description
-  -H "Content-Type: application/json"
+    "product_name": "Product A",
+    "category": "Category A",
+    "description": "Auction Description",
+    "condition": 1,
+    "status": 0
+  }'
 ```
 
 ### 2. **Buscar Leilão por ID**
 
-`GET /auctions/{id}`
+`GET /auction/{id}`
 
 ```bash
-curl http://localhost:8080/auctions/1
+curl http://localhost:8080/auction/1
+```
+
+### 3. **Buscar todos os Leiões**
+
+```bash
+curl http://localhost:8080/auction
 ```
 
 ### Mais rotas no diretorio [auction.http](api/auction.http)
