@@ -10,34 +10,35 @@ import (
 	"github.com/valdir-alves3000/postgraduate-challenges-go-expert/weather-cep-api/internal/validations"
 )
 
-func TemperatureHandler(w http.ResponseWriter, r *http.Request) {
-	zipcode := r.URL.Path[len("/temperature/"):]
+func TemperatureHandler(adapter adapters.WeatherAdapter) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		zipcode := r.URL.Path[len("/temperature/"):]
 
-	isZipcodeValid, formattedZipcode := validations.IsZipcodeValid(zipcode)
+		isZipcodeValid, formattedZipcode := validations.IsZipcodeValid(zipcode)
 
-	if !isZipcodeValid {
-		log.Printf("%s: %v", "Invalid ZIP code", zipcode)
-		internal_error.InvalidZipcodeError(w)
-		return
+		if !isZipcodeValid {
+			log.Printf("%s: %v", "Invalid ZIP code", zipcode)
+			internal_error.InvalidZipcodeError(w)
+			return
+		}
+
+		city, err := adapter.GetCityByCEP(formattedZipcode)
+		if err != nil {
+			log.Printf("%s: %v", "Failed to find city for ZIP code", err)
+			internal_error.CityNotFoundError(w)
+			return
+		}
+
+		temp, err := adapter.GetTemperature(city)
+		if err != nil {
+			log.Printf("%s: %v", "Failed to retrieve temperature", err)
+			internal_error.TemperatureNotFoundError(w)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(temp)
 	}
-
-	city, err := adapters.GetCityByCEP(formattedZipcode)
-	if err != nil {
-		log.Printf("%s: %v", "Failed to find city for ZIP code", err)
-		internal_error.CityNotFoundError(w)
-		return
-	}
-
-	temp, err := adapters.GetTemperature(city)
-	if err != nil {
-		log.Printf("%s: %v", "Failed to retrieve temperature", err)
-		internal_error.TemperatureNotFoundError(w)
-		return
-	}
-
-	w.Header().Set("Conten-Type", "application/json")
-	json.NewEncoder(w).Encode(temp)
-
 }
 
 func DocsHandler(w http.ResponseWriter, r *http.Request) {
